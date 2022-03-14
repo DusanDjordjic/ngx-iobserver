@@ -3,5 +3,37 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "ngx-iobserver": {
+      "projectType": "library",
+      "root": "projects/ngx-iobserver",
+      "sourceRoot": "projects/ngx-iobserver/src",
+      "prefix": "iobs",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-iobserver/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-iobserver/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-iobserver/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-iobserver/src/test.ts",
+            "tsConfig": "projects/ngx-iobserver/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-iobserver/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-iobserver"
 }
