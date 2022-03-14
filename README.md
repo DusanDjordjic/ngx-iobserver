@@ -1,27 +1,54 @@
-# LibDjorjdic
+# Ngx - Iobserver
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.1.
+This library helps you utilize javascript's intersection observer API by adding `iObserve`directive.
 
-## Development server
+## How to use
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Simply add the `iObserve` directive to any HTML tag that you want to observe and to it pass an instance of `IntersectionObserver`. The directive will add that element to the list of entries of the passed IntersectionObserver instance.
 
-## Code scaffolding
+`example.component.html`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```html
+<div class="example-section" [iObserve]="myObserver">
+  <h1>Hello world 1</h1>
+</div>
+<div class="example-section" [iObserve]="myObserver">
+  <h1>Hello world 2</h1>
+</div>
+<div class="example-section" [iObserve]="myObserver">
+  <h1>Hello world 3</h1>
+</div>
+```
 
-## Build
+`example.component.css`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```css
+.example-section{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-100vw)
+    transition: transform 2s
+}
+.example-section.active{
+    transform: translateX(0vw)
+}
+```
 
-## Running unit tests
+`example.component.ts`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```typescript
+export class ExampleComponent {
+  myObserver = new IntersectionObserver(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    },
+    { root: null, rootMargin: "-100px" }
+  );
+}
+```
